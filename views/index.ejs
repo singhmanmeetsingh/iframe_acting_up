@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <style>
+        #wrap { width: 100%; height: 390px; padding: 0; overflow: hidden; }
+        #frame { width: 100%; height: 520px; border: 1px solid black; }
+        #frame { zoom: 0.75; -moz-transform: scale(0.75); -moz-transform-origin: 0 0; }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js" integrity="sha512-UcDEnmFoMh0dYHu0wGsf5SKB7z7i5j3GuXHCnb3i4s44hfctoLihr896bxM0zL7jGkcHQXXrJsFIL62ehtd6yQ==" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
+    <script>
+        // Helper function to convert data URL to blob
+        function dataURItoBlob(dataURI) {
+        const byteString = atob(dataURI.split(',')[1]);
+        const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ab], { type: mimeString });
+        }
+
+        function getScreenshot(){    
+            let frame = document.getElementById("frame");
+            const iframeContent = frame.contentWindow.document.documentElement;
+            console.log("element frame", frame)
+            html2canvas(iframeContent,{ allowTaint: true }).then(canvas => {
+                const base64image = canvas.toDataURL("image/png");
+                const blob = dataURItoBlob(base64image);
+                // Create a File object from the Blob
+                const file = new File([blob], 'captured-image.png', { type: 'image/png' });
+                console.log("file", file)
+                const fileInput = document.getElementById('inputFile');
+
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                fileInput.files = dataTransfer.files;
+                
+            })
+
+        }
+    </script>
+</head>
+<body>
+    <h1>Img to Pdf</h1>
+    <form action="upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="inputImgText" id="inputFile"/>
+        <button type="submit">Convert</button>
+    </form>
+    <div id="wrap">
+        <iframe src="https://www.google.com/" width="100%" height="80%" id="frame"></iframe>
+    </div>
+
+    <div>
+        <button onclick="getScreenshot()">Get Scrrenshot</button>
+    </div>
+    
+</body>
+</html>
