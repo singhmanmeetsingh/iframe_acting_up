@@ -1,0 +1,2 @@
+# iframe_acting_up
+You can't, because they are seperate documents. The only way to achieve that would be to manipulate the page's code before printing so that the iframe was bigger, but this would have to be done by hand since the iframe's width and height may not be the only page elements actually limiting it's sizing. For example the iframe could be inside several other div tags that have fixed sizes. You'd also need to know the height and width of the content being shown in the iframe so you'd know how big to make the iframe's new size.
