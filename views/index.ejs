@@ -9,8 +9,9 @@
         #frame { width: 100%; height: 520px; border: 1px solid black; }
         #frame { zoom: 0.75; -moz-transform: scale(0.75); -moz-transform-origin: 0 0; }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js" integrity="sha512-UcDEnmFoMh0dYHu0wGsf5SKB7z7i5j3GuXHCnb3i4s44hfctoLihr896bxM0zL7jGkcHQXXrJsFIL62ehtd6yQ==" crossorigin="anonymous"
-    referrerpolicy="no-referrer"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js" integrity="sha512-UcDEnmFoMh0dYHu0wGsf5SKB7z7i5j3GuXHCnb3i4s44hfctoLihr896bxM0zL7jGkcHQXXrJsFIL62ehtd6yQ==" crossorigin="anonymous" -->
+    <!-- referrerpolicy="no-referrer"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/puppeteer@10.4.0"></script>
     <script>
         // Helper function to convert data URL to blob
         function dataURItoBlob(dataURI) {
@@ -24,7 +25,23 @@
         return new Blob([ab], { type: mimeString });
         }
 
-        function getScreenshot(){    
+        async function  getScreenshot(){    
+            //puppeteer
+            // const browser = await puppeteer.launch();
+			// const page = await browser.newPage();
+			// const iframeElement = document.getElementById('my-iframe');
+			// const iframeContent = await page.evaluateHandle((iframe) => iframe.contentDocument.documentElement, iframeElement);
+			// const screenshotBuffer = await iframeContent.screenshot();
+            // const file = new File([screenshotBuffer], 'screenshot.png', { type: 'image/png' });
+            // const fileInput = document.getElementById('inputFile');
+            // const dataTransfer = new DataTransfer();
+            // dataTransfer.items.add(file);
+            // fileInput.files = dataTransfer.files;
+			// await browser.close();
+            
+            
+            
+            //html2canvas code
             let frame = document.getElementById("frame");
             const iframeContent = frame.contentWindow.document.documentElement;
             console.log("element frame", frame)
@@ -41,7 +58,6 @@
                 fileInput.files = dataTransfer.files;
                 
             })
-
         }
     </script>
 </head>
